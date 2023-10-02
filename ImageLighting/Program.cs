@@ -1,6 +1,5 @@
-﻿using System;
-using System.Drawing;
-using System.Drawing.Imaging;
+﻿using System.Diagnostics;
+using SixLabors.ImageSharp.Formats.Jpeg;
 
 namespace ImageBrightnessModifier
 {
@@ -8,27 +7,40 @@ namespace ImageBrightnessModifier
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Image Brightness Modifier");
+            if (args.Length != 2)
+            {
+                Console.WriteLine("Usage: dotnet run <image_path> <brightness_adjustment>");
+                return;
+            }
 
-            // Prompt the user for the image file path
-            Console.Write("Enter the path of the image file: ");
-            string imagePath = Console.ReadLine();
+            string imagePath = args[0];
 
-            // Load the image
+            // Check if the image file exists
+            if (!File.Exists(imagePath))
+            {
+                Console.WriteLine("The specified image file does not exist.");
+                return;
+            }
+
+            // Load the image using ImageSharp
             try
             {
-                using (Bitmap originalImage = new Bitmap(imagePath))
+                using (var image = Image.Load(imagePath))
                 {
-                    Console.WriteLine("Enter brightness adjustment value (negative for darker, positive for lighter): ");
-                    if (int.TryParse(Console.ReadLine(), out int brightnessAdjustment))
+                    if (int.TryParse(args[1], out int brightnessAdjustment))
                     {
                         // Modify the image brightness
-                        Bitmap adjustedImage = AdjustBrightness(originalImage, brightnessAdjustment);
+                        image.Mutate(x => x
+                            .Brightness(brightnessAdjustment / 100.0f) // Adjust brightness (-1.0 to 1.0)
+                        );
 
                         // Save the modified image
                         string outputImagePath = "output.jpg"; // You can change the output file name and format
-                        adjustedImage.Save(outputImagePath, ImageFormat.Jpeg);
+                        image.Save(outputImagePath, new JpegEncoder());
                         Console.WriteLine($"Image saved as {outputImagePath}");
+
+                        // Open the modified image with the default image viewer
+                        Process.Start(new ProcessStartInfo(outputImagePath) { UseShellExecute = true });
                     }
                     else
                     {
@@ -40,27 +52,6 @@ namespace ImageBrightnessModifier
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
-        }
-
-        static Bitmap AdjustBrightness(Bitmap image, int brightnessAdjustment)
-        {
-            Bitmap adjustedImage = new Bitmap(image.Width, image.Height);
-
-            for (int x = 0; x < image.Width; x++)
-            {
-                for (int y = 0; y < image.Height; y++)
-                {
-                    Color pixel = image.GetPixel(x, y);
-                    int newRed = Math.Max(0, Math.Min(255, pixel.R + brightnessAdjustment));
-                    int newGreen = Math.Max(0, Math.Min(255, pixel.G + brightnessAdjustment));
-                    int newBlue = Math.Max(0, Math.Min(255, pixel.B + brightnessAdjustment));
-
-                    Color newPixel = Color.FromArgb(pixel.A, newRed, newGreen, newBlue);
-                    adjustedImage.SetPixel(x, y, newPixel);
-                }
-            }
-
-            return adjustedImage;
         }
     }
 }

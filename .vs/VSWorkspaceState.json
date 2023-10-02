@@ -1,6 +1,12 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\ImageLighting",
+    "\\ImageLighting\\obj",
+    "\\ImageLighting\\obj\\Debug",
+    "\\ImageLighting\\obj\\Debug\\net6.0",
+    "\\ImageLighting\\obj\\Release",
+    "\\ImageLighting\\obj\\Release\\net6.0"
   ],
   "PreviewInSolutionExplorer": false
 }

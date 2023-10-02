@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "7u+TEbQ42Lvj/9NDtM7gP9qQYVFNs3wBvcdEVXeYfpmX80k39VFi0vh3t1MDfOPglZW/i75Us+3efx5lJecEaQ==",
+  "dgSpecHash": "Q9qulcSnmfeurUDY+V4KkghEyMEoiS3PY+v+sO3o0arYDOMfJELEPUE56wgjQUwN6hgH75ytx6Siqc/AJl6ILA==",
   "success": true,
   "projectFilePath": "C:\\Users\\vladu\\source\\repos\\ImageLighting\\ImageLighting\\ImageLighting.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\vladu\\.nuget\\packages\\microsoft.win32.systemevents\\7.0.0\\microsoft.win32.systemevents.7.0.0.nupkg.sha512",
+    "C:\\Users\\vladu\\.nuget\\packages\\system.drawing.common\\7.0.0\\system.drawing.common.7.0.0.nupkg.sha512"
+  ],
   "logs": []
 }
